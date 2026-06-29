@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: outehr-frontend
+    ports:
+      - "5173:5173"  # Vite dev server
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_URL=http://localhost:5000
+      - VITE_ENV=development
+    networks:
+      - outehr-network
+    restart: unless-stopped
+
+networks:
+  outehr-network:
+    name: outehr-network
+    external: true
